@@ -4,7 +4,6 @@
 #include<iostream>
 #include<vector>
 #include<string>
-#include "ArquivoH.h""
 
 int main() {
 	std::string palavra = "void main {inicio ; fim }";
