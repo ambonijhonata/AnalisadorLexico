@@ -4,13 +4,25 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<unordered_map>
+
+struct Lexema {
+	std::string lexema;
+	std::string tipo;
+};
 
 int main() {
 	//fazer para ler varios nomedevariavel
-	std::string palavra = "void main {nome, outro:integer; }";
+	std::string palavra = "void main void {nome, outro:integer; }";
 	std::string lexema = "";
 	std::vector<int> tokens;
 	std::vector<std::string> lexemas;	
+	Lexema lexxema;
+
+	const std::string TIPO_PALAVRA_RESERVADA = "PALAVRA_RESERVADA";
+
+
+	std::unordered_multimap<int, Lexema> map_lexemas;
 
 	for (size_t i = 0; i < palavra.size(); i++) 
 	{	
@@ -28,7 +40,8 @@ int main() {
 		}
 		
 		if (lexema == "while") 
-		{
+		{			
+			
 			tokens.push_back(1);
 			lexemas.push_back(lexema);			
 			lexema = "";
@@ -36,6 +49,10 @@ int main() {
 		} 
 		else if (lexema == "void") 
 		{
+			lexxema.lexema = lexema;
+			lexxema.tipo = TIPO_PALAVRA_RESERVADA;
+			map_lexemas.insert(std::make_pair(2, lexxema));
+
 			tokens.push_back(2);
 			lexemas.push_back(lexema);			
 			lexema = "";
@@ -99,6 +116,10 @@ int main() {
 		}
 		else if (lexema == "main")
 		{
+			lexxema.lexema = lexema;
+			lexxema.tipo = TIPO_PALAVRA_RESERVADA;
+			map_lexemas.insert(std::make_pair(11, lexxema));
+
 			tokens.push_back(11);
 			lexemas.push_back(lexema);			
 			lexema = "";
