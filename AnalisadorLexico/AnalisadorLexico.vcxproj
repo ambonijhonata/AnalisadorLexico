@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnalisadorLexico.cpp" />
+    <ClCompile Include="Classificador.cpp" />
     <ClCompile Include="CoisasASeFazer.cpp" />
     <ClCompile Include="LerArquivo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Classificador.h" />
     <ClInclude Include="leitor_arquivo.h" />
   </ItemGroup>
   <ItemGroup>
