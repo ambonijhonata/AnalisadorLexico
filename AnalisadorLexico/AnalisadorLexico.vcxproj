@@ -129,6 +129,13 @@
   <ItemGroup>
     <ClCompile Include="AnalisadorLexico.cpp" />
     <ClCompile Include="CoisasASeFazer.cpp" />
+    <ClCompile Include="LerArquivo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="leitor_arquivo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Codigo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

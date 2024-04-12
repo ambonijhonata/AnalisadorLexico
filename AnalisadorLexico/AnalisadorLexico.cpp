@@ -4,10 +4,12 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include "leitor_arquivo.h"
 
 int main() {
 	//fazer para ler varios nomedevariavel
-	std::string palavra = "void main {nome, outro:integer; }";
+	std::string filename = "Codigo.txt";
+	std::string palavra = lerArquivo(filename);
 	std::string lexema = "";
 	std::vector<int> tokens;
 	std::vector<std::string> lexemas;

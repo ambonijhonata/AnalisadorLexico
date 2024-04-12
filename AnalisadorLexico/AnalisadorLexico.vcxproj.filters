@@ -21,5 +21,18 @@
     <ClCompile Include="CoisasASeFazer.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="LerArquivo.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="leitor_arquivo.h">
+      <Filter>Arquivos de Origem</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Codigo.txt">
+      <Filter>Arquivos de Origem</Filter>
+    </Text>
   </ItemGroup>
 </Project>
