@@ -13,11 +13,13 @@ int main() {
 	std::string palavra = lerArquivo(filename);
 	std::string lexema = "";
 	std::vector<int> tokens;
-	std::vector<std::string> lexemas;
+	std::vector<Lexema> lexemas;
 
 	classificar_tokens(&tokens, &lexemas, palavra);
 
-	std::cout << lexema << std::endl;
+	for (const auto& lexema : lexemas) {
+		std::cout << "Lexema: " << lexema.lexema << ", Classificação: " << lexema.classificacao << std::endl;
+	}
 
 	return 0;
 }

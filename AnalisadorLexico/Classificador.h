@@ -2,4 +2,10 @@
 #include<vector>
 #include<string>
 
-void classificar_tokens(std::vector<int>* tokens, std::vector<std::string>* lexemas, std::string palavra);
+struct Lexema {
+	int cod;
+	std::string lexema;
+	std::string classificacao;
+};
+
+void classificar_tokens(std::vector<int>* tokens, std::vector<Lexema>* lexemas, std::string palavra);
