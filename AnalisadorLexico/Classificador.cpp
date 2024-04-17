@@ -1,349 +1,309 @@
 #include<iostream>
+#include <fstream>
 #include<vector>
 #include<string>
 #include "Classificador.h"
 
-void classificar_tokens(std::vector<int>* tokens, std::vector<Lexema>* lexemas, std::string palavra) {
+void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens) {	
+
+	Lexema lexema;
+
+	/*ADICIONA O WHILE*/
+	lexema.id = 1;
+	lexema.lexema = "while";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O VOID*/
+	lexema.id = 2;
+	lexema.lexema = "void";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA A STRING*/
+	lexema.id = 3;
+	lexema.lexema = "string";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O RETURN*/
+	lexema.id = 4;
+	lexema.lexema = "return";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O NUMEROINTEIRO*/
+	lexema.id = 5;
+	lexema.lexema = "numerointeiro";
+	lexema.classificacao = "NUMERO INTEIRO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O NUMEROFLOAT*/
+	lexema.id = 6;
+	lexema.lexema = "numerofloat";
+	lexema.classificacao = "NUMERO REAL";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O NOMEVARIAVEL*/
+	lexema.id = 7;
+	lexema.lexema = "nomevariavel";
+	lexema.classificacao = "VARIAVEL";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O NOMEDOCHAR*/
+	lexema.id = 8;
+	lexema.lexema = "nomedochar";
+	lexema.classificacao = "CHAR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O NOMEDASTRING*/
+	lexema.id = 10;
+	lexema.lexema = "nomedastring";
+	lexema.classificacao = "STRING";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O MAIN*/
+	lexema.id = 11;
+	lexema.lexema = "main";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O LITERAL*/
+	lexema.id = 12;
+	lexema.lexema = "literal";
+	lexema.classificacao = "LITERAL";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O INTEGER*/
+	lexema.id = 13;
+	lexema.lexema = "integer";
+	lexema.classificacao = "TIPO DE DADO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O INTEGER*/
+	lexema.id = 14;
+	lexema.lexema = "inicio";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O IF*/
+	lexema.id = 15;
+	lexema.lexema = "if";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O Î*/
+	lexema.id = 16;
+	lexema.lexema = "î";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O FOR*/
+	lexema.id = 17;
+	lexema.lexema = "for";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O FLOAT*/
+	lexema.id = 18;
+	lexema.lexema = "float";
+	lexema.classificacao = "TIPO DE DADO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O FIM*/
+	lexema.id = 19;
+	lexema.lexema = "fim";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O ELSE*/
+	lexema.id = 20;
+	lexema.lexema = "else";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O DO*/
+	lexema.id = 21;
+	lexema.lexema = "do";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O COUT*/
+	lexema.id = 22;
+	lexema.lexema = "cout";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O CIN*/
+	lexema.id = 23;
+	lexema.lexema = "cin";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O CHAR*/
+	lexema.id = 24;
+	lexema.lexema = "char";
+	lexema.classificacao = "TIPO DE DADO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O CALLFUNCAO*/
+	lexema.id = 25;
+	lexema.lexema = "callfuncao";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O >>*/
+	lexema.id = 26;
+	lexema.lexema = ">>";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O >=*/
+	lexema.id = 27;
+	lexema.lexema = ">=";
+	lexema.classificacao = "OPERADOR DE COMPARACAO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O >*/
+	lexema.id = 28;
+	lexema.lexema = ">";
+	lexema.classificacao = "OPERADOR DE COMPARACAO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O ==*/
+	lexema.id = 29;
+	lexema.lexema = "==";
+	lexema.classificacao = "OPERADOR DE COMPARACAO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O =*/
+	lexema.id = 30;
+	lexema.lexema = "=";
+	lexema.classificacao = "OPERADOR DE ATRIBUICAO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O =*/
+	lexema.id = 30;
+	lexema.lexema = "=";
+	lexema.classificacao = "OPERADOR DE ATRIBUICAO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O <=*/
+	lexema.id = 31;
+	lexema.lexema = "<=";
+	lexema.classificacao = "OPERADOR DE COMPARACAO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O <<*/
+	lexema.id = 32;
+	lexema.lexema = "<<";
+	lexema.classificacao = "IDENTIFICADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O <*/
+	lexema.id = 33;
+	lexema.lexema = "<";
+	lexema.classificacao = "OPERADOR DE COMPARACAO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O ++*/
+	lexema.id = 34;
+	lexema.lexema = "++";
+	lexema.classificacao = "OPERADOR DE INCREMENTO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O +*/
+	lexema.id = 35;
+	lexema.lexema = "+";
+	lexema.classificacao = "OPERADOR ARITMETICO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O }*/
+	lexema.id = 36;
+	lexema.lexema = "}";
+	lexema.classificacao = "PARENTESIADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O {*/
+	lexema.id = 37;
+	lexema.lexema = "{";
+	lexema.classificacao = "PARENTESIADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O ;*/
+	lexema.id = 38;
+	lexema.lexema = ";";
+	lexema.classificacao = "PARENTESIADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O :*/
+	lexema.id = 39;
+	lexema.lexema = ":";
+	lexema.classificacao = "PARENTESIADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O /*/
+	lexema.id = 40;
+	lexema.lexema = "/";
+	lexema.classificacao = "OPERADOR ARITMETICO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O ,*/
+	lexema.id = 41;
+	lexema.lexema = ",";
+	lexema.classificacao = "PARENTESIADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O **/
+	lexema.id = 42;
+	lexema.lexema = "*";
+	lexema.classificacao = "OPERADOR ARITMETICO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O )*/
+	lexema.id = 43;
+	lexema.lexema = ")";
+	lexema.classificacao = "PARENTESIADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O (*/
+	lexema.id = 44;
+	lexema.lexema = "(";
+	lexema.classificacao = "PARENTESIADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O $*/
+	lexema.id = 45;
+	lexema.lexema = "$";
+	lexema.classificacao = "PARENTESIADOR";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O !=*/
+	lexema.id = 46;
+	lexema.lexema = "!=";
+	lexema.classificacao = "OPERADOR DE COMPARACAO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O --*/
+	lexema.id = 47;
+	lexema.lexema = "--";
+	lexema.classificacao = "OPERADOR DE DECREMENTO";
+	lexemasDaLinguagens.push_back(lexema);
+
+	/*ADICIONA O --*/
+	lexema.id = 48;
+	lexema.lexema = "-";
+	lexema.classificacao = "OPERADOR ARITMETICO";
+	lexemasDaLinguagens.push_back(lexema);
+}
+
+void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens) {
+	std::string line;
 	std::string lexema;
-	Lexema structLexema;
-	int contadorLinha = 1;
-	for (size_t i = 0; i < palavra.size(); i++)
-	{
-		
-		/*refatorar:
-			criar uma lista de lexema baseada na lista de tokens do ava.
-			quando identificar um token, buscar na lista o codigo e inserir no array de tokens.
-		*/
-		if (palavra[i] == '{')
-		{
-			lexema = palavra[i];
-		}
-		else if (palavra[i] != ' ' && palavra[i] != '\n')
-		{
-			lexema += palavra[i];
-		}
-		else if (palavra[i] == '\n')
-		{
-			contadorLinha++;
-			continue;
-		}
-		else {
-			lexema = "";
-		}
+	while (std::getline(fileStream, line)) {
+		std::cout << line << std::endl;
+		std::cout << line[0] << std::endl;
 
-		if (lexema == "while")
-		{
-			tokens->push_back(1);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "void")
-		{
-			structLexema.lexema = lexema;
-			structLexema.classificacao = "PALAVRA_RESERVADA";
-			tokens->push_back(2);
-			lexemas->push_back(structLexema);
-			std::cout << "Linha " << contadorLinha << "Token " << lexemas->size() << " " << lexema << " >>" << structLexema.classificacao << std::endl;
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "string")
-		{
-			tokens->push_back(3);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "return")
-		{
-			tokens->push_back(4);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "numerointeiro")
-		{
-			tokens->push_back(5);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "numerofloat")
-		{
-			tokens->push_back(6);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "nomevariavel")
-		{
-			tokens->push_back(7);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "nomedochar")
-		{
-			tokens->push_back(8);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "nomedavariavel")
-		{
-			tokens->push_back(9);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "nomedastring")
-		{
-			tokens->push_back(10);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "main")
-		{
-			structLexema.lexema = lexema;
-			structLexema.classificacao = "PALAVRA_RESERVADA";
-
-			tokens->push_back(11);
-			lexemas->push_back(structLexema);
-			std::cout << "Linha " << contadorLinha << "Token " << lexemas->size() << " " << lexema << " >>" << structLexema.classificacao << std::endl;
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "literal")
-		{
-			tokens->push_back(12);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "integer")
-		{
-			tokens->push_back(13);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "inicio")
-		{
-			tokens->push_back(14);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "if")
-		{
-			tokens->push_back(15);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "î")
-		{
-			tokens->push_back(16);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "for")
-		{
-			tokens->push_back(17);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "float")
-		{
-			tokens->push_back(18);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "fim")
-		{
-			tokens->push_back(19);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "else")
-		{
-			tokens->push_back(20);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "do")
-		{
-			tokens->push_back(21);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "cout")
-		{
-			tokens->push_back(22);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "cin")
-		{
-			tokens->push_back(23);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "char")
-		{
-			tokens->push_back(24);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "callfuncao")
-		{
-			tokens->push_back(25);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == ">>")
-		{
-			tokens->push_back(26);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == ">=")
-		{
-			//tokens->push_back(27);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == ">")
-		{
-			tokens->push_back(28);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "==")
-		{
-			tokens->push_back(29);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "=")
-		{
-			tokens->push_back(30);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "<=")
-		{
-			tokens->push_back(31);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "<<")
-		{
-			tokens->push_back(32);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "<")
-		{
-			tokens->push_back(33);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "++")
-		{
-			tokens->push_back(34);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "+")
-		{
-			tokens->push_back(35);
-			//lexemas->push_back(lexema);
-		}
-		else if (lexema == "}")
-		{
-			tokens->push_back(36);
-			//lexemas->push_back(lexema);
-			lexema = "";
-		}
-		else if (lexema == "{")
-		{
-			tokens->push_back(37);
-			//lexemas->push_back(lexema);
-			lexema = "";
-		}
-		else if (lexema == ";")
-		{
-			tokens->push_back(38);
-			//lexemas->push_back(lexema);
-			lexema = "";
-		}
-		else if (lexema == ":")
-		{
-			tokens->push_back(39);
-			//lexemas->push_back(lexema);
-			lexema = "";
-		}
-		else if (lexema == "/")
-		{
-			tokens->push_back(40);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == ",")
-		{
-			tokens->push_back(41);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "*")
-		{
-			tokens->push_back(42);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == ")")
-		{
-			tokens->push_back(43);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "(")
-		{
-			tokens->push_back(44);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "$")
-		{
-			tokens->push_back(45);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "!=")
-		{
-			tokens->push_back(46);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "--")
-		{
-			tokens->push_back(47);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-		else if (lexema == "-")
-		{
-			tokens->push_back(48);
-			//lexemas->push_back(lexema);
-			lexema = "";
-			continue;
-		}
-
-		//verifica se é o nome de uma variável
-		if (palavra[i + 1] == ':' || palavra[i + 1] == ',')
-		{
-			tokens->push_back(7);
-			//lexemas->push_back(lexema);
-			lexema = "";
-		}
-
+		lexemasDaLinguagens.ge
 	}
 }

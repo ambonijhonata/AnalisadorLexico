@@ -130,6 +130,7 @@
     <ClCompile Include="AnalisadorLexico.cpp" />
     <ClCompile Include="Classificador.cpp" />
     <ClCompile Include="CoisasASeFazer.cpp" />
+    <ClCompile Include="FileOpenException.cpp" />
     <ClCompile Include="LerArquivo.cpp" />
   </ItemGroup>
   <ItemGroup>
