@@ -297,13 +297,44 @@ void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens) {
 	lexemasDaLinguagens.push_back(lexema);
 }
 
-void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens) {
+void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<int> tokens) {
 	std::string line;
 	std::string lexema;
-	while (std::getline(fileStream, line)) {
-		std::cout << line << std::endl;
-		std::cout << line[0] << std::endl;
 
-		lexemasDaLinguagens.ge
+	while (std::getline(fileStream, line)) {
+
+		for(int i = 0; i < line.size(); i++) {		
+			if (line[i] == ' ') {
+				continue;
+			}
+
+			lexema += line[i];
+
+			if (line[i + 1] == ',' || line[i + 1] == ':') {
+				tokens.push_back(7);
+				lexema = "";
+				continue;
+			}
+			else if ((i + 1) < line.size()) {
+				if (line[i + 2] == ',' || line[i + 2] == ':') {
+					tokens.push_back(7);
+					lexema = "";
+					continue;
+				}
+			}
+
+
+			for (Lexema l : lexemasDaLinguagens) {
+				if (l.lexema._Equal(lexema)) {					
+					tokens.push_back(l.id);
+					lexema = "";
+					break;
+				}
+			}
+			std::cout << lexema << std::endl;
+		}
+		std::cout << line << std::endl;		
+
+
 	}
 }

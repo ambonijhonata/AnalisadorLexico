@@ -23,7 +23,7 @@ int main() {
 	try {
 		openFile(filename, file);
 		prepararEstruturas(lexemasDaLinguagens);
-		classificar_tokens(file, lexemasDaLinguagens);
+		classificar_tokens(file, lexemasDaLinguagens, tokens);
 
 		file.close();
 	}

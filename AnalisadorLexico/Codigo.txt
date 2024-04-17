@@ -1,3 +1,3 @@
-void main {nome, outro:integer;
-void
+void main {
+n1 , n2 : integer;
 }
