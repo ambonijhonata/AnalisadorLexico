@@ -300,13 +300,17 @@ void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens) {
 void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<int>& tokens) {
 	std::string line;
 	std::string lexema;
+	int contadorLinha = 0;
 
 	while (std::getline(fileStream, line)) {
+		contadorLinha++;
 
 		for(int i = 0; i < line.size(); i++) {
-
+			contadorLinha;
+			//Le o nome variável quando tem várias variáveis na mesma linha com vários espaços antes da ,
 			if (lexema != "" && line[lexema.size() - 1] != '"' && line[i] == ' ') {
 				tokens.push_back(7);
+				std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> VARIAVEL" << std::endl;
 				lexema = "";
 			}
 
@@ -318,6 +322,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 
 			if (line[i + 1] == ',' || line[i + 1] == ':') {
 				tokens.push_back(7);
+				std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> VARIAVEL" << std::endl;
 				lexema = "";
 				continue;
 			}		
@@ -325,13 +330,12 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 			for (Lexema l : lexemasDaLinguagens) {
 				if (l.lexema._Equal(lexema)) {					
 					tokens.push_back(l.id);
+					std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> " + l.classificacao << std::endl;
 					lexema = "";
 					break;
 				}
-			}
-			std::cout << lexema << std::endl;
-		}
-		std::cout << line << std::endl;		
+			}			
+		}		
 
 
 	}
