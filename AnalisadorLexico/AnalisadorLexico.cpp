@@ -18,7 +18,7 @@ int main() {
 	std::vector<int> tokens;
 	std::vector<Lexema> lexemas;
 	std::string linha;
-	std::list<Lexema> lexemasDaLinguagens;
+	std::list<Lexema> lexemasDaLinguagens;	
 
 	try {
 		openFile(filename, file);
