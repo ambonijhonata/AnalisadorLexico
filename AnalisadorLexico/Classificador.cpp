@@ -182,12 +182,6 @@ void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens) {
 	lexema.classificacao = "OPERADOR DE ATRIBUICAO";
 	lexemasDaLinguagens.push_back(lexema);
 
-	/*ADICIONA O =*/
-	lexema.id = 30;
-	lexema.lexema = "=";
-	lexema.classificacao = "OPERADOR DE ATRIBUICAO";
-	lexemasDaLinguagens.push_back(lexema);
-
 	/*ADICIONA O <=*/
 	lexema.id = 31;
 	lexema.lexema = "<=";
@@ -297,44 +291,123 @@ void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens) {
 	lexemasDaLinguagens.push_back(lexema);
 }
 
+bool delimitador(std::string letra, std::string lexema, bool *controlchar, bool *controlstring, bool *controlliteral) {
+
+	bool Ret = true;
+	std::string ultletra = lexema.empty() ? "" : lexema.substr(lexema.size() - 1);
+
+
+
+	// Comparando letra com strings (delimitadores)
+	if (letra == "\"") {
+		*controlstring = !(*controlstring); // Altera o estado do controle de string
+		Ret = false;
+	}
+	else if (letra == "'") {
+		*controlchar = !(*controlchar); // Altera o estado do controle de caractere
+		Ret = false;
+	}
+	else if (letra == "`") {
+		*controlliteral = !(*controlliteral); // Altera o estado do controle de literal
+		Ret = false;
+	}
+	if (*controlliteral || *controlchar || *controlstring) {
+		return Ret;
+	}
+
+	if (letra == " " || letra == ":" || letra == "," || letra == "{" || letra == "*" || letra == "/") {
+		Ret = false;
+	}
+	else if (letra == "=" && lexema != "=" && lexema != ">" && lexema != "<" && lexema != "!") {
+		Ret = false;
+	}
+	else if (letra == ">" && lexema != ">") {
+		Ret = false;
+	}
+	else if (letra == "<" && lexema != "<") {    
+		Ret = false;
+	}
+	else if (letra == "-" && lexema != "-") {
+		Ret = false;
+	}
+	else if (letra == "+" && lexema != "+") {
+		Ret = false;
+	}
+	else if (ultletra == "=" || ultletra == ">" || ultletra == "<" || ultletra == "-" || 
+			 ultletra == "+" || ultletra == ":" || ultletra == "," || ultletra == "{" || 
+			 ultletra == "\"" || ultletra == "*" || ultletra == "/") {
+		Ret = false;
+	}
+
+	return Ret;
+}
+
+bool contemApenasLetras(const std::string& str) {
+	for (char c : str) {
+		if (!std::isalpha(c) || (c >= 128 && c <= 255)) { // Verifica se o caractere não é uma letra ou se é uma letra com acento
+			return false;
+		}
+	}
+	return true;
+}
+
 void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<int>& tokens) {
 	std::string line;
 	std::string lexema;
+
 	int contadorLinha = 0;
+
+	bool controlchar = false;
+	bool controlstring = false;
+	bool controlliteral = false;
 
 	while (std::getline(fileStream, line)) {
 		contadorLinha++;
 
 		for(int i = 0; i < line.size(); i++) {
 			contadorLinha;
+			/*
 			//Le o nome variável quando tem várias variáveis na mesma linha com vários espaços antes da ,
 			if (lexema != "" && line[lexema.size() - 1] != '"' && line[i] == ' ') {
 				tokens.push_back(7);
 				std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> VARIAVEL" << std::endl;
 				lexema = "";
 			}
+			*/
 
-			if (line[i] == ' ') {
-				continue;
+			if (delimitador(std::string(1, line[i]), lexema, &controlchar, &controlstring, &controlliteral)) {
+				lexema += line[i];
+			}
+			else {
+
+				for (Lexema l : lexemasDaLinguagens) {
+					if (l.lexema._Equal(lexema)) {
+						tokens.push_back(l.id);
+						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> " + l.classificacao << std::endl;
+						lexema = "";
+						break;
+					}
+				}
+				if (!lexema.empty()) {
+					if (contemApenasLetras(lexema)) {
+						tokens.push_back(7);
+						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> VARIAVEL" << std::endl;
+						lexema = "";
+					}
+				}
+				if (line[i] != ' ') {
+					lexema = line[i];
+				}
 			}
 
-			lexema += line[i];
-
+			/*
 			if (line[i + 1] == ',' || line[i + 1] == ':') {
 				tokens.push_back(7);
 				std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> VARIAVEL" << std::endl;
 				lexema = "";
 				continue;
-			}		
-
-			for (Lexema l : lexemasDaLinguagens) {
-				if (l.lexema._Equal(lexema)) {					
-					tokens.push_back(l.id);
-					std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> " + l.classificacao << std::endl;
-					lexema = "";
-					break;
-				}
-			}			
+			}	
+			*/			
 		}		
 
 

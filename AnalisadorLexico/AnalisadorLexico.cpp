@@ -16,7 +16,7 @@ int main() {
 	std::ifstream file;
 	std::string lexema = "";
 	std::vector<int> tokens;
-	std::vector<Lexema> lexemas;
+	std::vector<Lexema> lexemas; 
 	std::string linha;
 	std::list<Lexema> lexemasDaLinguagens;	
 
