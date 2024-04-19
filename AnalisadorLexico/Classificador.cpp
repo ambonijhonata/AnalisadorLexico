@@ -2,6 +2,7 @@
 #include <fstream>
 #include<vector>
 #include<string>
+#include <algorithm> // Para std::transform
 #include "Classificador.h"
 
 void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens) {	
@@ -354,6 +355,7 @@ bool contemApenasLetras(const std::string& str) {
 void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<int>& tokens) {
 	std::string line;
 	std::string lexema;
+	std::string lexemaLower;
 
 	int contadorLinha = 0;
 
@@ -381,7 +383,10 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 			else {
 
 				for (Lexema l : lexemasDaLinguagens) {
-					if (l.lexema._Equal(lexema)) {
+					lexemaLower = lexema;
+					std::transform(lexemaLower.begin(), lexemaLower.end(), lexemaLower.begin(), ::tolower); // Converte lexema para minúsculas
+
+					if (l.lexema._Equal(lexemaLower)) {
 						tokens.push_back(l.id);
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> " + l.classificacao << std::endl;
 						lexema = "";
