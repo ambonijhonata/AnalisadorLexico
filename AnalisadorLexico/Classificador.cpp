@@ -315,7 +315,7 @@ bool delimitador(std::string letra, std::string lexema, bool *controlchar, bool 
 		return Ret;
 	}
 
-	if (letra == " " || letra == ":" || letra == "," || letra == "{" || letra == "*" || letra == "/") {
+	if (letra == " " || letra == ":" || letra == "," || letra == "{" || letra == "*" || letra == ";" || letra == "/") {
 		Ret = false;
 	}
 	else if (letra == "=" && lexema != "=" && lexema != ">" && lexema != "<" && lexema != "!") {
@@ -335,7 +335,7 @@ bool delimitador(std::string letra, std::string lexema, bool *controlchar, bool 
 	}
 	else if (ultletra == "=" || ultletra == ">" || ultletra == "<" || ultletra == "-" || 
 			 ultletra == "+" || ultletra == ":" || ultletra == "," || ultletra == "{" || 
-			 ultletra == "\"" || ultletra == "*" || ultletra == "/") {
+			 ultletra == "\"" || ultletra == "*" || ultletra == "/" || ultletra == ";") {
 		Ret = false;
 	}
 
