@@ -306,7 +306,7 @@ bool delimitador(std::string letra, std::string lexema, bool *controlchar, bool 
 		*controlchar = !(*controlchar); // Altera o estado do controle de caractere
 		Ret = false;
 	}
-	else if (letra == "`" && !*controlstring && !*controlliteral) {
+	else if (letra == "´" && !*controlstring && !*controlliteral) {
 		*controlliteral = !(*controlliteral); // Altera o estado do controle de literal
 		Ret = false;
 	}
@@ -381,7 +381,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 			}
 			else {
 
-				if (!lexema.empty() && !std::all_of(lexema.begin(), lexema.end(), ::isspace)) {
+				if (!lexema.empty()) {
 				
 					for (Lexema l : lexemasDaLinguagens) {
 						lexemaLower = lexema;
@@ -396,7 +396,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 					}
 				}
 
-				if (!lexema.empty() && !std::all_of(lexema.begin(), lexema.end(), ::isspace)) {
+				if (!lexema.empty()) {
 
 					if (lexema.front() == '"') {
 						if (line[i] == '"') {
@@ -407,6 +407,30 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 						}
 						else {
 							std::cout << "Linha " << contadorLinha << " ERRO LEXICO, STRING NAO ECERRADO" << std::endl;
+							lexema = "";
+						}
+					}
+					else if (lexema.front() == '\'') {
+						if (line[i] == '\'') {
+							tokens.push_back(8);
+							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema + line[i] << " >> CHAR" << std::endl;
+							lexema = "";
+							i++;
+						}
+						else {
+							std::cout << "Linha " << contadorLinha << " ERRO LEXICO, CHAR NAO ECERRADO" << std::endl;
+							lexema = "";
+						}
+					}
+					else if (lexema.front() == '´') {
+						if (line[i] == '´') {
+							tokens.push_back(12);
+							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema + line[i] << " >> LITERAL" << std::endl;
+							lexema = "";
+							i++;
+						}
+						else {
+							std::cout << "Linha " << contadorLinha << " ERRO LEXICO, LITERAL NAO ECERRADO" << std::endl;
 							lexema = "";
 						}
 					}
