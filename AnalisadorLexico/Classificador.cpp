@@ -342,8 +342,7 @@ bool delimitador(std::string letra, std::string lexema, bool* controlchar, bool*
 		*controlcomenta = !(*controlcomenta);
 	}
 	else if ((ultletra == "=" && letra != "=") || (ultletra == ">" && letra != ">") || (ultletra == "<" && letra != "<") ||
-		(ultletra == "-" && letra != "-") || (ultletra == "+" && letra != "+") || (ultletra == "*" && letra != "*") ||
-		(ultletra == "(" && letra != "(") || (ultletra == ")" && letra != ")")) {
+		(ultletra == "-" && letra != "-") || (ultletra == "+" && letra != "+") || (ultletra == "*" && letra != "*") || (ultletra == "(") || (ultletra == ")"))  {
 		Ret = false;
 	}
 
@@ -397,10 +396,14 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 
 		for (int i = 0; i <= line.size(); i++) {
 			contadorLinha;
+			
 
 			char aux = line[i];
-			if (delimitador(std::string(1, line[i]), lexema, &controlchar, &controlstring, &controlliteral, line.size(), i, &controlcomenta, &controlblockcom)) {
-				lexema += line[i];
+			if (delimitador(std::string(1, line[i]), lexema, &controlchar, &controlstring, &controlliteral, line.size(), i, &controlcomenta)) {
+				//não lê tabulação
+				if (line[i] != '\t') {
+					lexema += line[i];
+				}
 			}
 			else {
 
