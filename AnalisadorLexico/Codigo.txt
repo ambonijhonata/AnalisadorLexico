@@ -1,7 +1,5 @@
 Void main {
 nA == nB
 nb == "teste";
-**teste teste;
-//teste
 CIN << ´TESTE´
 }

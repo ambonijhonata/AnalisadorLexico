@@ -292,32 +292,32 @@ void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens) {
 	lexemasDaLinguagens.push_back(lexema);
 }
 
-bool delimitador(std::string letra, std::string lexema, bool *controlchar, bool *controlstring, bool *controlliteral, int total, int i, bool *controlcomenta) {
+bool delimitador(std::string letra, std::string lexema, bool *controlchar, bool *controlstring, bool *controlliteral, int total, int i) {
 
 	bool Ret = true;
 	std::string ultletra = lexema.empty() ? "" : lexema.substr(lexema.size() - 1);
 
 	// Comparando letra com strings (delimitadores)
-	if (letra == "\"" && !*controlchar && !*controlliteral && !*controlcomenta) {
+	if (letra == "\"" && !*controlchar && !*controlliteral) {
 		*controlstring = !(*controlstring); // Altera o estado do controle de string
 		Ret = false;
 	}
-	else if (letra == "'" && !*controlstring && !*controlliteral && !*controlcomenta) {
+	else if (letra == "'" && !*controlstring && !*controlliteral) {
 		*controlchar = !(*controlchar); // Altera o estado do controle de caractere
 		Ret = false;
 	}
-	else if (letra == "´" && !*controlstring && !*controlchar && !*controlcomenta) {
+	else if (letra == "´" && !*controlstring && !*controlliteral) {
 		*controlliteral = !(*controlliteral); // Altera o estado do controle de literal
 		Ret = false;
 	}
 	else if ((letra.empty() && letra != " ") || i == total) {
 		Ret = false;
 	}
-	if (*controlliteral || *controlchar || *controlstring || *controlcomenta) {
+	if (*controlliteral || *controlchar || *controlstring) {
 		return Ret;
 	}
 
-	if (letra == " " || letra == ":" || letra == "," || letra == "{" || letra == "}" || letra == ";" || letra == "/") {
+	if (letra == " " || letra == ":" || letra == "," || letra == "{" || letra == "}" || letra == "*" || letra == ";" || letra == "/") {
 		Ret = false;
 	}
 	else if (letra == "=" && lexema != "=" && lexema != ">" && lexema != "<" && lexema != "!") {
@@ -335,14 +335,8 @@ bool delimitador(std::string letra, std::string lexema, bool *controlchar, bool 
 	else if (letra == "+" && lexema != "+") {
 		Ret = false;
 	}
-	else if (letra == "*" && lexema != "*") {
-		Ret = false;
-	}
-	else if (letra == "*" && lexema == "*") {
-		*controlcomenta = !(*controlcomenta);
-	}
 	else if ((ultletra == "=" && letra != "=") || (ultletra == ">" && letra != ">") || (ultletra == "<" && letra != "<") || 
-			(ultletra == "-" && letra != "-") || (ultletra == "+" && letra != "+") || (ultletra == "*" && letra != "*")) {
+			(ultletra == "-" && letra != "-") || (ultletra == "+" && letra != "+")) {
 		Ret = false;
 	}
 
@@ -368,7 +362,6 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 	bool controlchar = false;
 	bool controlstring = false;
 	bool controlliteral = false;
-	bool controlcomenta = false;
 
 	while (std::getline(fileStream, line)) {
 		contadorLinha++;
@@ -378,17 +371,17 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 		controlchar = false;
 		controlstring = false;
 		controlliteral = false;
-		controlcomenta = false;
+
 
 		for(int i = 0; i <= line.size(); i++) {
 			contadorLinha;
 
-			if (delimitador(std::string(1, line[i]), lexema, &controlchar, &controlstring, &controlliteral, line.size(), i, &controlcomenta)) {
+			if (delimitador(std::string(1, line[i]), lexema, &controlchar, &controlstring, &controlliteral, line.size(), i)) {
 				lexema += line[i];
 			}
 			else {
 
-				if (!lexema.empty() && !controlcomenta) {
+				if (!lexema.empty()) {
 				
 					for (Lexema l : lexemasDaLinguagens) {
 						lexemaLower = lexema;
@@ -403,14 +396,14 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 					}
 				}
 
-				if (!lexema.empty() && !controlcomenta) {
+				if (!lexema.empty()) {
 
 					if (lexema.front() == '"') {
 						if (line[i] == '"') {
 							tokens.push_back(10);
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema + line[i] << " >> STRING" << std::endl;
 							lexema = "";
-							continue;
+							i++;
 						}
 						else {
 							std::cout << "Linha " << contadorLinha << " ERRO LEXICO, STRING NAO ECERRADO" << std::endl;
@@ -422,7 +415,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 							tokens.push_back(8);
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema + line[i] << " >> CHAR" << std::endl;
 							lexema = "";
-							continue;
+							i++;
 						}
 						else {
 							std::cout << "Linha " << contadorLinha << " ERRO LEXICO, CHAR NAO ECERRADO" << std::endl;
@@ -434,7 +427,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 							tokens.push_back(12);
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema + line[i] << " >> LITERAL" << std::endl;
 							lexema = "";
-							continue;
+							i++;
 						}
 						else {
 							std::cout << "Linha " << contadorLinha << " ERRO LEXICO, LITERAL NAO ECERRADO" << std::endl;
