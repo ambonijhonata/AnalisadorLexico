@@ -1,3 +1,4 @@
-integer soma(integer na, integer nb){
-	result: integer;	
-}
+na = "str";
+nb = 's';
+nc = 1;
+nd = 23.12

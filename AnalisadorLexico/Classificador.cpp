@@ -24,7 +24,7 @@ void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens) {
 	/*ADICIONA A STRING*/
 	lexema.id = 3;
 	lexema.lexema = "string";
-	lexema.classificacao = "IDENTIFICADOR";
+	lexema.classificacao = "TIPO DE DADO";
 	lexemasDaLinguagens.push_back(lexema);
 
 	/*ADICIONA O RETURN*/
@@ -298,12 +298,13 @@ bool delimitador(std::string letra, std::string lexema, bool* controlchar, bool*
 	std::string ultletra = lexema.empty() ? "" : lexema.substr(lexema.size() - 1);
 
 	// Comparando letra com strings (delimitadores)
-	if (letra == "\"" && !*controlchar && !*controlliteral && !*controlcomenta && !*controlblockcom) {
-		*controlstring = !(*controlstring); // Altera o estado do controle de string
+	if (letra == "\"" && !*controlchar && !*controlliteral && !*controlcomenta) {
+		//*controlstring = !(*controlstring); // Altera o estado do controle de string
+		*controlstring = true;
 		Ret = false;
 	}
-	else if (letra == "'" && !*controlstring && !*controlliteral && !*controlcomenta && !*controlblockcom) {
-		*controlchar = !(*controlchar); // Altera o estado do controle de caractere
+	else if (letra == "'" && !*controlstring && !*controlliteral && !*controlcomenta) {
+		*controlchar = true; // Altera o estado do controle de caractere
 		Ret = false;
 	}
 	else if (letra == "´" && !*controlstring && !*controlchar && !*controlcomenta && !*controlblockcom) {
@@ -460,10 +461,22 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 							lexema = "";
 						}
 					}
-					else if (contemApenasLetras(lexema)) {
+					else if (contemApenasLetras(lexema) && !controlstring && !controlchar) {
 						tokens.push_back(7);
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> VARIAVEL" << std::endl;
 						lexema = "";
+					}
+					else if (controlstring) {
+						tokens.push_back(10);
+						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> String" << std::endl;
+						lexema = "";
+						controlstring = false;
+					}
+					else if (controlchar) {
+						tokens.push_back(8);
+						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> Char" << std::endl;
+						lexema = "";
+						controlchar = false;
 					}
 					else if (isDouble(lexema)) {
 						tokens.push_back(6);
@@ -476,7 +489,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 						lexema = "";
 					}
 				}
-				if (line[i] != ' ') {
+				if (line[i] != ' ' && line[i] != '\"' && line[i] != '\'') {
 					lexema = line[i];
 				}
 			}
