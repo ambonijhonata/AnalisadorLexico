@@ -421,7 +421,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 					}
 				}
 
-h				if (!lexema.empty() && !controlcomenta) {
+				if (!lexema.empty() && !controlcomenta) {
 
 					if (lexema.front() == '"') {
 						if (line[i] == '"') {
