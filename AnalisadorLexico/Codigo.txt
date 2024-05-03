@@ -1,12 +1,4 @@
-int main() {
-    int num = 5;
-    int fatorial = 1;
+std::cout << "O fatorial de " << num << " é: " << fatorial << std::endl;
 
-    for (int i = 1; i <= num; ++i) {
-        fatorial *= i;
-    }
-
-    std::cout << "O fatorial de " << num << " é: " << fatorial << std::endl;
-
-    return 0;
+return 0;
 }

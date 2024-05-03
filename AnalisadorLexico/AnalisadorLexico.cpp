@@ -15,6 +15,7 @@ int main() {
 
 	std::ifstream file;
 	std::string lexema = "";
+	std::string nomeArquivo = "C:\\a\\saida.txt";
 	std::vector<int> tokens;
 	std::vector<Lexema> lexemas; 
 	std::string linha;
@@ -32,6 +33,18 @@ int main() {
 		return 1;
 	}
 
+	std::ofstream arquivo(nomeArquivo);
+
+	if (arquivo.is_open()) {
+		for (int token : tokens) {
+			arquivo << token << std::endl;
+		}
+		arquivo.close();
+		std::cout << "Valores foram escritos em " << nomeArquivo << std::endl;
+	}
+	else {
+		std::cerr << "Não foi possível abrir o arquivo " << nomeArquivo << std::endl;
+	}
 
 	return 0;
 
