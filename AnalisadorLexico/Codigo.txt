@@ -1,5 +1,1 @@
-Void main {
-nA == nB
-nb == "teste";
-CIN << ´TESTE´
-}
+nb = 10.10;
