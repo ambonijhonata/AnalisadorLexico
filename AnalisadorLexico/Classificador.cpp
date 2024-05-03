@@ -343,7 +343,8 @@ bool delimitador(std::string letra, std::string lexema, bool* controlchar, bool*
 		*controlcomenta = !(*controlcomenta);
 	}
 	else if ((ultletra == "=" && letra != "=") || (ultletra == ">" && letra != ">") || (ultletra == "<" && letra != "<") ||
-		(ultletra == "-" && letra != "-") || (ultletra == "+" && letra != "+") || (ultletra == "*" && letra != "*") || (ultletra == "(") || (ultletra == ")"))  {
+		(ultletra == "-" && letra != "-") || (ultletra == "+" && letra != "+") || (ultletra == "*" && letra != "*") ||
+		(ultletra == "(" && letra != "(") || (ultletra == ")" && letra != ")")) {
 		Ret = false;
 	}
 
