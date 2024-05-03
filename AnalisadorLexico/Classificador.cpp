@@ -358,6 +358,19 @@ bool contemApenasLetras(const std::string& str) {
 	return true;
 }
 
+bool contains(const std::string& str, char ch) {
+	for (size_t i = 0; i < str.length(); i++) {
+		if (str[i] == ch) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool isDouble(const std::string& str) {
+	return contains(str, '.');
+}
+
 void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<int>& tokens) {
 	std::string line;
 	std::string lexema;
@@ -383,6 +396,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 		for (int i = 0; i <= line.size(); i++) {
 			contadorLinha;
 
+			char aux = line[i];
 			if (delimitador(std::string(1, line[i]), lexema, &controlchar, &controlstring, &controlliteral, line.size(), i, &controlcomenta)) {
 				lexema += line[i];
 			}
@@ -444,6 +458,16 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 					else if (contemApenasLetras(lexema)) {
 						tokens.push_back(7);
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> VARIAVEL" << std::endl;
+						lexema = "";
+					}
+					else if (isDouble(lexema)) {
+						tokens.push_back(6);
+						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> FLOAT" << std::endl;
+						lexema = "";
+					}
+					else {
+						tokens.push_back(5);
+						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> INTEIRO" << std::endl;
 						lexema = "";
 					}
 				}
