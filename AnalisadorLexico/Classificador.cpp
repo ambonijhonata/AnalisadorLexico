@@ -311,10 +311,25 @@ bool delimitador(std::string letra, std::string lexema, bool* controlchar, bool*
 		*controlliteral = !(*controlliteral); // Altera o estado do controle de literal
 		Ret = false;
 	}
+	else if (letra == "_" && !*controlstring && !*controlchar && !*controlliteral && !*controlcomenta && !*controlblockcom) {
+		Ret = false;
+	}
+	else if (letra == "*" && lexema == "_"  && !*controlstring && !*controlchar && !*controlliteral && !*controlcomenta && !*controlblockcom) {
+		Ret = false;
+		*controlblockcom = !(*controlblockcom);
+	}
+	else if (letra == "*" && !*controlstring && !*controlchar && !*controlliteral && !*controlcomenta && *controlblockcom) {
+		Ret = false;
+	}
+	else if (lexema == "*_" && !*controlstring && !*controlchar && !*controlliteral && !*controlcomenta && *controlblockcom) {
+		Ret = false;
+		*controlblockcom = !(*controlblockcom);
+	}
+
 	else if ((letra.empty() && letra != " ") || i == total && !*controlblockcom) {
 		Ret = false;
 	}
-	if (*controlliteral || *controlchar || *controlstring || *controlcomenta) {
+	if (*controlliteral || *controlchar || *controlstring || *controlcomenta || *controlblockcom) {
 		return Ret;
 	}
 
@@ -407,10 +422,14 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 				if (line[i] != '\t') {
 					lexema += line[i];
 				}
+
 			}
 			else {
+				if (lexema == "*_" && !controlblockcom) {
+					lexema = "";
+				}
 
-				if (!lexema.empty() && !controlcomenta) {
+				if (!lexema.empty() && !controlcomenta && !controlblockcom) {
 
 					for (Lexema l : lexemasDaLinguagens) {
 						lexemaLower = lexema;
@@ -425,7 +444,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 					}
 				}
 
-				if (!lexema.empty() && !controlcomenta) {
+				if (!lexema.empty() && !controlcomenta && !controlblockcom) {
 
 					if (lexema.front() == '"') {
 						if (line[i] == '"') {
