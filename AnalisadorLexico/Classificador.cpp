@@ -495,6 +495,10 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 						lexema = "";
 					}
 					else if (controlstring) {
+						if (line[i] != '\"') {
+							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": Erro lexico, nao fechou a aspas da string" << std::endl;
+						}
+
 						tokens.push_back(10);
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> String" << std::endl;
 						lexema = "";
