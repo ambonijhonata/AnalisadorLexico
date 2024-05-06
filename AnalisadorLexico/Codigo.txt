@@ -1,6 +1,13 @@
-std::cout << "O fatorial de " << num << " é: " << fatorial << std::endl;
-_* teste teste
-*
-integer // *_
-return 0;
+integer main() {
+    num, fatorial, i: integer;
+    num = 5;
+    fatorial = 1;
+    
+    for (i = 1; i <= num; ++i) {
+        fatorial *= i;
+    }
+    
+    std::cout << "O fatorial de " << num << " é: " << fatorial << std::endl;
+    
+    return 0;
 }
