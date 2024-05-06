@@ -389,6 +389,22 @@ bool isDouble(const std::string& str) {
 	return contains(str, '.');
 }
 
+bool isDuasCasasDepoisDoPonto(const std::string& str) {
+	int contador = 0;
+	bool isEncontrouOPonto = false;
+	for (size_t i = 0; i < str.length(); i++) {
+		if (str[i] == '.') {
+			isEncontrouOPonto = true;
+			continue;
+		}
+		if (isEncontrouOPonto) {
+			contador++;
+		}
+	}
+
+	return contador < 3;
+}
+
 void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<int>& tokens) {
 	std::string line;
 	std::string lexema;
@@ -511,6 +527,9 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 						controlchar = false;
 					}
 					else if (isDouble(lexema)) {
+						if (!isDuasCasasDepoisDoPonto(lexema)) {
+							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": Erro lexico, float tem mais de duas casas depois da virgula." << std::endl;
+						}
 						tokens.push_back(6);
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> FLOAT" << std::endl;
 						lexema = "";
