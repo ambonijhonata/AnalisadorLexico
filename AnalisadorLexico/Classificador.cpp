@@ -339,10 +339,10 @@ bool delimitador(std::string letra, std::string lexema, bool* controlchar, bool*
 	else if (letra == "=" && lexema != "=" && lexema != ">" && lexema != "<" && lexema != "!") {
 		Ret = false;
 	}
-	else if (letra == ">" && lexema != ">") {
+	else if (letra == ">" && (lexema != ">" || lexema != "=")) {
 		Ret = false;
 	}
-	else if (letra == "<" && lexema != "<") {
+	else if (letra == "<" && (lexema != "<" || lexema != "=")) {
 		Ret = false;
 	}
 	else if (letra == "-" && lexema != "-") {
@@ -358,6 +358,7 @@ bool delimitador(std::string letra, std::string lexema, bool* controlchar, bool*
 		*controlcomenta = !(*controlcomenta);
 	}
 	else if ((ultletra == "=" && letra != "=") || (ultletra == ">" && letra != ">") || (ultletra == "<" && letra != "<") ||
+		(ultletra == "<" && letra != "=") || (ultletra == ">" && letra != "=") ||
 		(ultletra == "-" && letra != "-") || (ultletra == "+" && letra != "+") || (ultletra == "*" && letra != "*") ||
 		(ultletra == "(" && letra != "(") || (ultletra == ")" && letra != ")") || (ultletra == ":" && letra != ":") ||
 		(ultletra == "{" && letra != "{") || (ultletra == "}" && letra != "}") || (ultletra == "/" && letra != "/")) {

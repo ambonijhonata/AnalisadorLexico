@@ -24,15 +24,28 @@
     <ClCompile Include="LerArquivo.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Classificador.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="FileOpenException.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="AnalisadorSintatico.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="leitor_arquivo.h">
       <Filter>Arquivos de Origem</Filter>
+    </ClInclude>
+    <ClInclude Include="Classificador.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Codigo.txt">
       <Filter>Arquivos de Origem</Filter>
     </Text>
+    <Text Include="saida.txt" />
   </ItemGroup>
 </Project>

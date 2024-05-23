@@ -26,7 +26,10 @@ int main() {
 		prepararEstruturas(lexemasDaLinguagens);
 		classificar_tokens(file, lexemasDaLinguagens, tokens);
 
+		Sintatico(tokens);
+
 		file.close();
+
 	}
 	catch (const FileOpenException ex) {
 		std::cerr << ex.what() << std::endl;

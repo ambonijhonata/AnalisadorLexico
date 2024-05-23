@@ -1,1 +1,14 @@
-teste = 2.23;
+void main {
+
+	integer nnome;
+
+	if (6 != 5) {
+	cout << ´deu certo´;** nao pode ler
+	
+	If (nvariavel /nVariaver == teste) {
+	nler ++;
+	} 
+
+	return 4
+	}
+}

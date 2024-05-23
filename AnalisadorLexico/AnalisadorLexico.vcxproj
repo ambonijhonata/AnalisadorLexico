@@ -132,6 +132,7 @@
     <ClCompile Include="CoisasASeFazer.cpp" />
     <ClCompile Include="FileOpenException.cpp" />
     <ClCompile Include="LerArquivo.cpp" />
+    <ClCompile Include="AnalisadorSintatico.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classificador.h" />
@@ -139,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Codigo.txt" />
+    <Text Include="saida.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
