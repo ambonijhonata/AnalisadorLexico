@@ -140,12 +140,6 @@ void Sintatico(std::vector<int> tokens) {
         pilha.push_back(gramatica[0][i]);
     }
 
-    /*
-    for (size_t i = pilha.size(); i > 0; i--) {
-        
-    }
-    */
-
     std::cout << "pilha ";
     for (size_t i = 0; i < pilha.size(); ++i) {
         std::cout << pilha[i] << " ";
