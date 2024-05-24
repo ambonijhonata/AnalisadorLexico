@@ -1,6 +1,6 @@
 void main {
 
-	integer nnome;
+	nnome :integer;
 
 	if (6 != 5) {
 	cout << ´deu certo´;** nao pode ler

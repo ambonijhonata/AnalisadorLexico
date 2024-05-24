@@ -4,7 +4,10 @@
 #include "Classificador.h"
 
 void Sintatico(std::vector<int> tokens) {
-	//						1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24	25	26	27	28	29	30	31	32	33	34	35	36	37	38	39	40	41	42	43	44	45	46	47	48
+	
+    int i;
+    int ValPilha = 0;
+    //						1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24	25	26	27	28	29	30	31	32	33	34	35	36	37	38	39	40	41	42	43	44	45	46	47	48
 	int parser[32][48] = {
 						   {0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0 }, // 49
 						   {0,	3,	3,	0,	0,	0,	2,	0,	0,	0,	0,	0,	3,	0,	0,	0,	0,	3,	0,	0,	0,	0,	0,	3,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0 }, // 50
@@ -133,13 +136,15 @@ void Sintatico(std::vector<int> tokens) {
 
     pilha.push_back(45);
 
-    for (size_t i = 0; i < gramatica[0].size(); ++i) {
+    for (int i = gramatica[0].size() - 1; i >= 0; i--) {
         pilha.push_back(gramatica[0][i]);
     }
 
+    /*
     for (size_t i = pilha.size(); i > 0; i--) {
         
     }
+    */
 
     std::cout << "pilha ";
     for (size_t i = 0; i < pilha.size(); ++i) {
@@ -147,24 +152,19 @@ void Sintatico(std::vector<int> tokens) {
     }
     std::cout << std::endl;
 
+    std::cout << "tokens ";
+    for (int i = tokens.size() - 1; i >= 0; i--) {
+        std::cout << tokens[i] << " ";
+    }
+    std::cout << std::endl;
+
     while (pilha.size() > 0) {
 
-        if (pilha[pilha.size() - 1] == 16) {
-            
-            pilha.pop_back();
+        if (tokens.size() > 0) {
 
-            std::cout << "pilha ";
-            for (size_t i = 0; i < pilha.size(); ++i) {
-                std::cout << pilha[i] << " ";
-            }
-            std::cout << std::endl;
-        }
-        else if (pilha[pilha.size() - 1] < 49) {
-            
-            if (pilha[pilha.size() - 1] == tokens[tokens.size() - 1]) {
+            if (pilha[pilha.size() - 1] == 16) {
 
                 pilha.pop_back();
-                tokens.pop_back();
 
                 std::cout << "pilha ";
                 for (size_t i = 0; i < pilha.size(); ++i) {
@@ -173,20 +173,40 @@ void Sintatico(std::vector<int> tokens) {
                 std::cout << std::endl;
 
                 std::cout << "tokens ";
-                for (size_t i = 0; i < tokens.size(); ++i) {
+                for (int i = tokens.size() - 1; i >= 0; i--) {
                     std::cout << tokens[i] << " ";
                 }
                 std::cout << std::endl;
+
             }
-        }
-        else {
-            for (int i = 0; i < 48; i++) {
-                if (parser[i][pilha[pilha.size() - 1] - 48] == tokens[tokens.size() - 1]) {
-                    
+            else if (pilha[pilha.size() - 1] < 48) {
+
+                if (pilha[pilha.size() - 1] == tokens[0]) {
+
+                    pilha.pop_back();
+                    tokens.erase(tokens.begin());
+
+                    std::cout << "pilha ";
+                    for (size_t i = 0; i < pilha.size(); ++i) {
+                        std::cout << pilha[i] << " ";
+                    }
+                    std::cout << std::endl;
+
+                    std::cout << "tokens ";
+                    for (int i = tokens.size() - 1; i >= 0; i--) {
+                        std::cout << tokens[i] << " ";
+                    }
+                    std::cout << std::endl;
+                }
+            }
+            else {
+                if (parser[pilha[pilha.size() - 1] - 49][tokens[0] - 1] > 0) {
+
+                    ValPilha = pilha[pilha.size() - 1] - 49;
                     pilha.pop_back();
 
-                    for (size_t j = 0; j < gramatica[parser[i][pilha[pilha.size() - 1] - 48]].size(); j++) {
-                        pilha.push_back(gramatica[parser[i][pilha[pilha.size() - 1] - 48]][j]);
+                    for (int j = gramatica[parser[ValPilha][tokens[0] - 1] - 1].size() - 1; j >= 0; j--) {
+                        pilha.push_back(gramatica[parser[ValPilha][tokens[0] - 1] - 1][j]);
                     }
 
                     std::cout << "pilha ";
@@ -194,10 +214,28 @@ void Sintatico(std::vector<int> tokens) {
                         std::cout << pilha[j] << " ";
                     }
                     std::cout << std::endl;
+
+                    std::cout << "tokens ";
+                    for (int j = tokens.size() - 1; j >= 0; j--) {
+                        std::cout << tokens[j] << " ";
+                    }
+                    std::cout << std::endl;
+                }
+                else {
+                    std::cout << "erro sintatico: token " << tokens[0] << " nao encontrado onde se esperava" << std::endl;
+                    break;
                 }
             }
         }
+        else {
+            std::cout << "erro sintatico: pilha nao esta vazia" << std::endl;
+            break;
+        }
+        
     }
 
+    if (tokens.size() > 0 && pilha.size() == 0) {
+        std::cout << "erro sintatico: lista de tokens nao esta vazia" << std::endl;
+    }
 
 }
