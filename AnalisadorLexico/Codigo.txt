@@ -1,14 +1,3 @@
 void main {
-
-	nnome :integer;
-
-	if (6 != 5) {
-	cout << ´deu certo´;** nao pode ler
-	
-	If (nvariavel /nVariaver == teste) {
-	nler ++;
-	} 
-
-	return 4
-	}
+n1:integer;
 }

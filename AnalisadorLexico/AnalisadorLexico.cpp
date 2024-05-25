@@ -16,8 +16,9 @@ int main() {
 	std::ifstream file;
 	std::string lexema = "";
 	std::string nomeArquivo = "C:\\a\\saida.txt";
-	std::vector<int> tokens;
-	std::vector<Lexema> lexemas; 
+	std::vector<std::vector<int>> tokens;
+	//std::vector<int> tokens;
+	std::vector<Lexema> lexemas;
 	std::string linha;
 	std::list<Lexema> lexemasDaLinguagens;	
 
@@ -26,7 +27,7 @@ int main() {
 		prepararEstruturas(lexemasDaLinguagens);
 		classificar_tokens(file, lexemasDaLinguagens, tokens);
 
-		Sintatico(tokens);
+		//Sintatico(tokens);
 
 		file.close();
 
@@ -39,9 +40,12 @@ int main() {
 	std::ofstream arquivo(nomeArquivo);
 
 	if (arquivo.is_open()) {
-		for (int token : tokens) {
-			arquivo << token << std::endl;
+		for (int i = 0; i < tokens.size(); i++) {
+			arquivo << tokens[i][0] << std::endl;
 		}
+		/*for (int token : tokens) {
+			arquivo << token << std::endl;
+		}*/
 		arquivo.close();
 		std::cout << "Valores foram escritos em " << nomeArquivo << std::endl;
 	}

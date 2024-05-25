@@ -406,7 +406,7 @@ bool isDuasCasasDepoisDoPonto(const std::string& str) {
 	return contador < 3;
 }
 
-void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<int>& tokens) {
+void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<std::vector<int>>& tokens) {
 	std::string line;
 	std::string lexema;
 	std::string lexemaLower;
@@ -446,7 +446,6 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 				if (line[i] != '\t') {
 					lexema += line[i];
 				}
-
 			}
 			else {
 				if (lexema == "*_" && !controlblockcom) {
@@ -460,7 +459,8 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 						std::transform(lexemaLower.begin(), lexemaLower.end(), lexemaLower.begin(), ::tolower); // Converte lexema para minúsculas
 
 						if (l.lexema._Equal(lexemaLower)) {
-							tokens.push_back(l.id);
+							tokens.push_back({l.id, contadorLinha});
+							//tokens.push_back(l.id);
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> " + l.classificacao << std::endl;
 							lexema = "";
 							break;
@@ -472,7 +472,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 
 					if (lexema.front() == '"') {
 						if (line[i] == '"') {
-							tokens.push_back(10);
+							tokens.push_back({10, contadorLinha});
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema + line[i] << " >> STRING" << std::endl;
 							lexema = "";
 							continue;
@@ -484,7 +484,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 					}
 					else if (lexema.front() == '\'') {
 						if (line[i] == '\'') {
-							tokens.push_back(8);
+							tokens.push_back({ 8, contadorLinha });
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema + line[i] << " >> CHAR" << std::endl;
 							lexema = "";
 							continue;
@@ -496,7 +496,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 					}
 					else if (lexema.front() == '´') {
 						if (line[i] == '´') {
-							tokens.push_back(12);
+							tokens.push_back({ 12, contadorLinha });
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema + line[i] << " >> LITERAL" << std::endl;
 							lexema = "";
 							continue;
@@ -507,7 +507,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 						}
 					}
 					else if (contemApenasLetras(lexema) && !controlstring && !controlchar) {
-						tokens.push_back(7);
+						tokens.push_back({ 7, contadorLinha });
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> VARIAVEL" << std::endl;
 						lexema = "";
 					}
@@ -516,13 +516,13 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": Erro lexico, nao fechou a aspas da string" << std::endl;
 						}
 
-						tokens.push_back(10);
+						tokens.push_back({ 10, contadorLinha });
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> String" << std::endl;
 						lexema = "";
 						controlstring = false;
 					}
 					else if (controlchar) {
-						tokens.push_back(8);
+						tokens.push_back({ 8, contadorLinha });
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> Char" << std::endl;
 						lexema = "";
 						controlchar = false;
@@ -531,12 +531,12 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 						if (!isDuasCasasDepoisDoPonto(lexema)) {
 							std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": Erro lexico, float tem mais de duas casas depois da virgula." << std::endl;
 						}
-						tokens.push_back(6);
+						tokens.push_back({ 6, contadorLinha });
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> FLOAT" << std::endl;
 						lexema = "";
 					}
 					else {
-						tokens.push_back(5);
+						tokens.push_back({ 5, contadorLinha });
 						std::cout << "Linha " << contadorLinha << " Token: " << tokens.size() << ": " + lexema << " >> INTEIRO" << std::endl;
 						lexema = "";
 					}
