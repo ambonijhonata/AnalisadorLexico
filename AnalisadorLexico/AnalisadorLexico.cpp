@@ -27,7 +27,7 @@ int main() {
 		prepararEstruturas(lexemasDaLinguagens);
 		classificar_tokens(file, lexemasDaLinguagens, tokens);
 
-		//Sintatico(tokens);
+		Sintatico(tokens);
 
 		file.close();
 

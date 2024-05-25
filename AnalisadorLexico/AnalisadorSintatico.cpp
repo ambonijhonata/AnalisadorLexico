@@ -3,7 +3,7 @@
 #include <sstream>
 #include "Classificador.h"
 
-void Sintatico(std::vector<int> tokens) {
+void Sintatico(std::vector<std::vector<int>> tokens) {
 	
     int i;
     int ValPilha = 0;
@@ -149,7 +149,7 @@ void Sintatico(std::vector<int> tokens) {
 
     std::cout << "tokens ";
     for (int i = tokens.size() - 1; i >= 0; i--) {
-        std::cout << tokens[i] << " ";
+        std::cout << tokens[i][0] << " ";
     }
     std::cout << std::endl;
 
@@ -169,14 +169,14 @@ void Sintatico(std::vector<int> tokens) {
 
                 std::cout << "tokens ";
                 for (int i = tokens.size() - 1; i >= 0; i--) {
-                    std::cout << tokens[i] << " ";
+                    std::cout << tokens[i][0] << " ";
                 }
                 std::cout << std::endl;
 
             }
             else if (pilha[pilha.size() - 1] < 48) {
 
-                if (pilha[pilha.size() - 1] == tokens[0]) {
+                if (pilha[pilha.size() - 1] == tokens[0][0]) {
 
                     pilha.pop_back();
                     tokens.erase(tokens.begin());
@@ -189,24 +189,24 @@ void Sintatico(std::vector<int> tokens) {
 
                     std::cout << "tokens ";
                     for (int i = tokens.size() - 1; i >= 0; i--) {
-                        std::cout << tokens[i] << " ";
+                        std::cout << tokens[i][0] << " ";
                     }
                     std::cout << std::endl;
                 }
                 else {
-                    std::cout << "erro sintatico: esperava token "<< pilha[pilha.size() - 1] << " mas recebeu o token " << tokens[0] << std::endl;
+                    std::cout << "erro sintatico linha " << tokens[0][1] << ": esperava token "<< pilha[pilha.size() - 1] << " mas recebeu o token " << tokens[0][0] << std::endl;
                     break;
 
                 }
             }
             else {
-                if (parser[pilha[pilha.size() - 1] - 49][tokens[0] - 1] > 0) {
+                if (parser[pilha[pilha.size() - 1] - 49][tokens[0][0] - 1] > 0) {
 
                     ValPilha = pilha[pilha.size() - 1] - 49;
                     pilha.pop_back();
 
-                    for (int j = gramatica[parser[ValPilha][tokens[0] - 1] - 1].size() - 1; j >= 0; j--) {
-                        pilha.push_back(gramatica[parser[ValPilha][tokens[0] - 1] - 1][j]);
+                    for (int j = gramatica[parser[ValPilha][tokens[0][0] - 1] - 1].size() - 1; j >= 0; j--) {
+                        pilha.push_back(gramatica[parser[ValPilha][tokens[0][0] - 1] - 1][j]);
                     }
 
                     std::cout << "pilha ";
@@ -217,7 +217,7 @@ void Sintatico(std::vector<int> tokens) {
 
                     std::cout << "tokens ";
                     for (int j = tokens.size() - 1; j >= 0; j--) {
-                        std::cout << tokens[j] << " ";
+                        std::cout << tokens[j][0] << " ";
                     }
                     std::cout << std::endl;
                 }
@@ -225,8 +225,8 @@ void Sintatico(std::vector<int> tokens) {
                     ValPilha = pilha[pilha.size() - 1] - 49;
                     pilha.pop_back();
 
-                    for (int j = gramatica[parser[ValPilha][tokens[0] - 1] - 1].size() - 1; j >= 0; j--) {
-                        pilha.push_back(gramatica[parser[ValPilha][tokens[0] - 1] - 1][j]);
+                    for (int j = gramatica[parser[ValPilha][tokens[0][0] - 1] - 1].size() - 1; j >= 0; j--) {
+                        pilha.push_back(gramatica[parser[ValPilha][tokens[0][0] - 1] - 1][j]);
                     }
 
                     std::cout << "pilha ";
@@ -237,12 +237,12 @@ void Sintatico(std::vector<int> tokens) {
 
                     std::cout << "tokens ";
                     for (int j = tokens.size() - 1; j >= 0; j--) {
-                        std::cout << tokens[j] << " ";
+                        std::cout << tokens[j][0] << " ";
                     }
                     std::cout << std::endl;
                 }
                 else {
-                    std::cout << "erro sintatico: token " << tokens[0] << " nao encontrado onde se esperava" << std::endl;
+                    std::cout << "erro sintatico linha " << tokens[0][1] <<": token " << tokens[0][0] << " nao encontrado onde se esperava" << std::endl;
                     break;
                 }
             }

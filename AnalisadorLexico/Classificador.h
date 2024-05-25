@@ -12,5 +12,5 @@ struct Lexema {
 
 void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<std::vector<int>>& tokens);
 void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens);
-void Sintatico(std::vector<int> tokens);
+void Sintatico(std::vector<std::vector<int>> tokens);
 bool isDouble(const std::string& str);
