@@ -1,8 +1,3 @@
-void main {
-    inicio
-    nomevariavel = numerointeiro;
-    nomedochar = nomevariavel;
-    nomevariavel = numerofloat;
-    fim
-
+for(aux = 1; aux <= 10; ++aux) {
+	cout << 'media: ' << media;
 }
