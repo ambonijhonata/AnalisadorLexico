@@ -456,7 +456,7 @@ void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaL
 					lexema = "";
 				}
 
-				if (lexema == "<" && line[i] == '<') {
+				if (lexema == "<" && line[i] == '<' || lexema == "<" && line[i] == '=') {
 					controlmenor = true;
 					lexema += line[i];
 				}
