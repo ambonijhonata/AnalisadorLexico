@@ -10,7 +10,16 @@ struct Lexema {
 	int linha;
 };
 
-void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<std::vector<int>>& tokens);
+struct Item {
+
+	std::string nome;
+	int tipo;
+	std::string categoria;
+	int nivel;
+};
+
+void classificar_tokens(std::ifstream& fileStream, std::list<Lexema>& lexemasDaLinguagens, std::vector<std::vector<int>>& tokens, std::vector<std::string> nomevariaveis);
 void prepararEstruturas(std::list<Lexema>& lexemasDaLinguagens);
-void Sintatico(std::vector<std::vector<int>> tokens);
+void Sintatico(std::vector<std::vector<int>> tokens, std::vector<std::string> nomevariaveis);
+bool Semantico(std::vector<Item> itens, std::vector<std::vector<int>> tokens, int* nfuncao, int* nchave, std::vector<std::string> nomevariaveis);
 bool isDouble(const std::string& str);
